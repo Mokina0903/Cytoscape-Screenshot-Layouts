@@ -6,9 +6,7 @@ const layouter = new Layouter().getInstance();
 
 
 router.get('/', function(req, res, next) {
-    //todo get layout
     const fileBase = req.query.fileName;
-    console.log("fileName: " + fileBase)
     layouter.setBaseName(fileBase);
     res.send(JSON.stringify(layouter.currentLayout()));
 });

@@ -4,18 +4,17 @@ const Layouter = require('./Layouter');
 async function run() {
     const layouter = new Layouter().getInstance();
     let layout = layouter.currentLayout();
+
     const browser = await puppeteer.launch({
         headless: true,
         ignoreHTTPSErrors: true,
     });
 
     const page = await browser.newPage();
-
-     while(layout !== "finished") {
-         //await takeScreenshot(page, layouter);
-         layout = layouter.nextLayout();
-      }
-
+    while (layout !== "finished") {
+        await takeScreenshot(page, layouter);
+        layout = layouter.nextLayout();
+    }
 
     await page.close();
     await browser.close();
@@ -25,10 +24,11 @@ async function run() {
 
 async function takeScreenshot(page, layouter) {
     await page.goto("http://localhost:3333/");
-    console.log("page loaded");
-    //await page.screenshot({path: "./images/" + layouter.getFileName()});
+    await page.waitForSelector('#cyCanvas');
     const element = await page.waitForSelector('#cytoscapeComponent');
-    await element.screenshot({path: "./images/" + layouter.getFileName() +".png"});
+    const fileName = layouter.getFileName() + ".png";
+    await element.screenshot({path: "./images/" + fileName});
+    console.log("Saved file " + fileName);
 }
 
 module.exports = run;

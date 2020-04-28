@@ -14,7 +14,7 @@ class Layouter {
             nodeRepulsion: this._nodeRepulsionOptions.min,
             idealEdgeLength: this._idealEdgeLenghtOptions.min,
             edgeElasticity: this._edgeElasticityOptions.min,
-            gravity: this._gravityOptions.min,
+            gravity: 1.2,
             nestingFactor: 1,
             gravityRange: 3.8,
             gravityCompound: 1.5,
@@ -38,28 +38,35 @@ class Layouter {
         if (this.layout.edgeElasticity <= this._edgeElasticityOptions.max) {
             if (this.layout.idealEdgeLength <= this._idealEdgeLenghtOptions.max) {
                 if (this.layout.nodeRepulsion <= this._nodeRepulsionOptions.max) {
-                    if (this.layout.gravity <= this._gravityOptions.max) {
+                   /* if (this.layout.gravity <= this._gravityOptions.max) {
 
                         this.layout.gravity = this.calcValue(this.layout.gravity, this._gravityOptions, 2);
                         this.amount++;
+                        console.log(this.layout.edgeElasticity +  ", " + this.layout.idealEdgeLength + ", " + this.layout.nodeRepulsion + ", " + this.layout.gravity)
                         return this.layout;
                     }
-                    this.layout.gravity = this._gravityOptions.min;
+                    this.layout.gravity = this._gravityOptions.min;*/
 
                     this.layout.nodeRepulsion = this.calcValue(this.layout.nodeRepulsion, this._nodeRepulsionOptions, 0);
                     this.amount++;
+                    console.log(this.layout.edgeElasticity +  ", " + this.layout.idealEdgeLength + ", " + this.layout.nodeRepulsion + ", " + this.layout.gravity)
+
                     return this.layout;
                 }
                 this.layout.nodeRepulsion = this._nodeRepulsionOptions.min;
 
                 this.layout.idealEdgeLength = this.calcValue(this.layout.idealEdgeLength, this._idealEdgeLenghtOptions, 0);
                 this.amount++;
+                console.log(this.layout.edgeElasticity +  ", " + this.layout.idealEdgeLength + ", " + this.layout.nodeRepulsion + ", " + this.layout.gravity)
+
                 return this.layout;
             }
             this.layout.idealEdgeLength = this._idealEdgeLenghtOptions.min;
 
             this.layout.edgeElasticity = this.calcValue(this.layout.edgeElasticity, this._edgeElasticityOptions, 4);
             this.amount++;
+            console.log(this.layout.edgeElasticity +  ", " + this.layout.idealEdgeLength + ", " + this.layout.nodeRepulsion + ", " + this.layout.gravity)
+
             return this.layout;
         }
         this.layout.edgeElasticity = this._edgeElasticityOptions.min;
@@ -92,8 +99,8 @@ class Layouter {
 
     _edgeElasticityOptions = {
         min: 0.0001,
-        max: 0.1,
-        step: 0.1
+        max: 0.01,
+        step: 0.002
     };
 
     _idealEdgeLenghtOptions = {
@@ -105,13 +112,13 @@ class Layouter {
     _nodeRepulsionOptions = {
         min: 500,
         max: 6000,
-        step: 400
+        step: 4000
     };
 
     _gravityOptions = {
         min: 0.1,
-        max: 6,
-        step: 0.5
+        max: 5,
+        step: 5
     };
 
 }
